@@ -1,0 +1,52 @@
+group 'com.tsingyun'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.3.RELEASE'
+        tsingyunBootVersion = "1.1.5"
+    }
+    repositories {
+        maven {
+            url 'http://maven.solarule.cn/artifactory/libs-release'
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    maven {
+//        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        url 'http://maven.solarule.cn/artifactory/libs-release'
+    }
+}
+
+dependencies {
+//    compile('org.springframework.boot:spring-boot-starter-web')
+//    compile('org.flowable:flowable-spring-boot-starter-basic:6.2.1')
+    compile('org.flowable:flowable-spring-boot-starter-rest-api:6.2.1')
+
+    compile('mysql:mysql-connector-java:5.1.37')
+
+    compile('com.alibaba:druid:1.0.18')
+    compile('com.alibaba:fastjson:1.2.35')
+
+    compile('com.xiaoleilu:hutool-core:3.3.2')
+
+    compile("org.springframework.boot:spring-boot-devtools")
+}
+
+bootRun {
+    addResources = true
+}
+
