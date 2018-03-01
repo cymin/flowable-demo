@@ -26,8 +26,8 @@ spring:
 
 logging:
   level:
-#    root: WARN
-    com.tsingyun: INFO
+#    root: warn
+    com.tsingyun: debug
 
 ---
 spring:
