@@ -3,13 +3,18 @@ package com.tsingyun.service;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
+import org.flowable.engine.common.impl.identity.Authentication;
+import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MyService {
@@ -22,6 +27,29 @@ public class MyService {
 
     @Autowired
     private HistoryService historyService;
+
+    /**
+     * 通过processDefinitionKey启动流程
+     * @param processDefinitionKey 流程定义key
+     * @return 流程实例ID
+     */
+    @Transactional
+    public String startProcessByProcessDefinitionKey(String processDefinitionKey, String businessKey, String assigneeList) {
+        // 设置流程的启动人
+        Authentication.setAuthenticatedUserId("Initiator");
+
+        //设置流程变量，设置下一个任务的办理组
+        final Map<String, Object> map = new HashMap<>();
+        map.put("assignee", assigneeList);
+
+        // 启动流程
+        final ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, map);
+
+        // 为了防止多线程时内存泄露，需要设置为null
+        Authentication.setAuthenticatedUserId(null);
+
+        return processInstance.getId();
+    }
 
     /**
      * 分页获取某个人的待办任务

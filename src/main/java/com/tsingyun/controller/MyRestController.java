@@ -75,4 +75,26 @@ public class MyRestController {
         }
         return dtos;
     }
+
+    /**
+     * 启动流程
+     * @param processDefinitionKey
+     * @param businessKey 业务key
+     * @param assigneeList 任务办理人
+     * @return
+     */
+    @GetMapping("/task/start")
+    public String startProcessByProcessDefinitionKey(String processDefinitionKey, String businessKey, String assigneeList) {
+        if (StringUtils.isEmpty(processDefinitionKey)) {
+            processDefinitionKey = PROCESS_DEFINITION_KEY;
+        }
+        if (StringUtils.isEmpty(businessKey)) {
+            businessKey = "businessKey1";
+        }
+         if (StringUtils.isEmpty(assigneeList)) {
+             assigneeList = "Initiator";
+        }
+        String processInstanceId = myService.startProcessByProcessDefinitionKey(processDefinitionKey, businessKey, assigneeList);
+        return processInstanceId;
+    }
 }
