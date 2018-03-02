@@ -6,7 +6,7 @@
     <sequenceFlow id="_4" sourceRef="_2" targetRef="_3">
       <conditionExpression xsi:type="tFormalExpression"/>
     </sequenceFlow>
-    <userTask activiti:exclusive="true" id="_5" name="direct leadership" activiti:candidateUsers="${assigneeList}"></userTask>
+    <userTask activiti:exclusive="true" id="_5" name="direct leadership" activiti:candidateUsers="${assignee}"></userTask>
     <sequenceFlow id="_6" sourceRef="_3" targetRef="_5">
       <conditionExpression xsi:type="tFormalExpression"/>
     </sequenceFlow>
@@ -19,7 +19,7 @@
     <sequenceFlow id="_12" name="reject" sourceRef="_9" targetRef="_8">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${flow=='reject'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask activiti:exclusive="true" id="_13" name="boss" activiti:candidateUsers="${assigneeList}"></userTask>
+    <userTask activiti:exclusive="true" id="_13" name="boss" activiti:candidateUsers="${assignee}"></userTask>
     <sequenceFlow id="_14" sourceRef="_5" targetRef="_13"/>
     <sequenceFlow id="_10" sourceRef="_13" targetRef="_9"/>
     <sequenceFlow id="_16" name="no" sourceRef="_9" targetRef="_5">
