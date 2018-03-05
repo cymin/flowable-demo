@@ -6,6 +6,7 @@ import com.xiaoleilu.hutool.date.DateUtil;
 import org.flowable.task.api.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,21 @@ public class MyRestController {
         List<Task> tasks = myService.getTasksByProcessDefinitionKey(processDefinitionKey);
         List<TaskRepresentation> dtos = new ArrayList<>();
         for (Task task : tasks) {
+            dtos.add(new TaskRepresentation(task.getId(), task.getName(), DateUtil.formatDateTime(task.getCreateTime())));
+        }
+        return dtos;
+    }
+
+    /**
+     * 获取已完成的历史任务
+     *
+     * @return
+     */
+    @GetMapping("/historic/finished-tasks")
+    public List<TaskRepresentation> getHistoricTasks() {
+        List<HistoricTaskInstance> tasks = myService.getFinishedHistoricTasks();
+        List<TaskRepresentation> dtos = new ArrayList<>();
+        for (HistoricTaskInstance task : tasks) {
             dtos.add(new TaskRepresentation(task.getId(), task.getName(), DateUtil.formatDateTime(task.getCreateTime())));
         }
         return dtos;
